@@ -1,0 +1,26 @@
+{
+    "name": "iamxid/iamx-wallet-connect",
+    "description": "This package allows users to use the IAMX wallet to authenticate into a laravel project.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jochen Heinz",
+            "email": "support@cardano-blockhouse.de"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "IAMXID\\IamxWalletConnect\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "IAMXID\\IamxWalletConnect\\IamxWalletConnectServiceProvider"
+            ]
+        }
+    }
+}
