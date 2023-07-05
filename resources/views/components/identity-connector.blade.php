@@ -1,5 +1,5 @@
 <div>
-    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="iamxLoginButton" onclick="createDID()">
+    <button class="btn-identity" id="iamxLoginButton" onclick="createDID()">
         Create IAMX DID
     </button>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

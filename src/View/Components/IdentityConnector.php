@@ -21,6 +21,6 @@ class IdentityConnector extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('iamxwalletauth::components.identity-connector');
+        return view('iamxwalletconnect::components.identity-connector');
     }
 }

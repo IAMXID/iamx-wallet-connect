@@ -40,7 +40,7 @@ class IamxWalletConnectServiceProvider extends ServiceProvider
 
 
         // Load package views
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'iamxwalletauth');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'iamxwalletconnect');
 
         // Load package routes
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
