@@ -13,7 +13,7 @@ IAMX wallet connect is a Laravel package to login to a laravel application using
 
 Install the current version of the `iamxid/iamx-wallet-connect` package via composer:
 ```sh
-    composer require iamxid/iamx-wallet-connect
+    composer require iamxid/iamx-wallet-connect:dev-main
 ```
 
 ## Configuration
@@ -48,6 +48,8 @@ class User extends Model
     ...
 }
 ```
+Place the component <x-iamxwalletconnect-identity-connector /> in your blade template to insert the wallet connect button.
+
 ## Examples
 Use the functions in the HasDID trait in your application to access the IAMX wallet attributes:
 
@@ -69,11 +71,6 @@ Fetch all available attributes:
 $user = User::find(1);
 $allValues = $user->getAllDIDValues($user->id);
 ```
-
-
-Place the component <x-iamxwalletconnect-identity-connector /> in your blade template to insert the wallet connect button.
-
-
 
 ## Bugs and Suggestions
 
