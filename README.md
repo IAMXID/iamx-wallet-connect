@@ -48,7 +48,7 @@ class User extends Model
     ...
 }
 ```
-Place the component <x-iamxwalletconnect-identity-connector /> in your blade template to insert the wallet connect button.
+Place the component ```<x-iamxwalletconnect-identity-connector />``` in your blade template to insert the wallet connect button.
 
 ## Examples
 Use the functions in the HasDID trait in your application to access the IAMX wallet attributes:
