@@ -33,71 +33,75 @@ class WalletConnectController extends Controller
             ->first();
 
         // Only change stored wallet data if the did has changed
-        if ($oldDID->attribute_value) {
+        if ($oldDID) {
             if (Crypt::decryptString($oldDID->attribute_value) != $request->data['did']) {
-
-                // Insert or update wallet data into table iamx_identity_attributes
-                foreach ($request->data as $parentKey => $parentValue) {
-                    if (is_array($parentValue)) {
-                        $index = 0;
-                        foreach ($parentValue as $childKey => $childValue) {
-                            if (is_array($childValue)) {
-                                foreach ($childValue as $childChildKey => $childchildValue) {
-                                    if($childchildValue) {
-                                        IamxIdentityAttribute::updateOrCreate(
-                                            [
-                                                'user_id' => $user->id,
-                                                'category' => $parentKey,
-                                                'attribute_name' => $childChildKey,
-                                                'element_number' => $index
-                                            ],
-                                            [
-                                                'attribute_value' => Crypt::encryptString($childchildValue)
-                                            ]
-                                        );
-                                    }
-                                }
-                                $index++;
-
-                            } else {
-                                if($childValue) {
-                                    IamxIdentityAttribute::updateOrCreate(
-                                        [
-                                            'user_id' => $user->id,
-                                            'category' => $parentKey,
-                                            'attribute_name' => $childKey
-                                        ],
-                                        [
-                                            'attribute_value' => Crypt::encryptString($childValue)
-                                        ]
-                                    );
-                                }
-                            }
-
-                        }
-                    } else {
-                        IamxIdentityAttribute::updateOrCreate(
-                            [
-                                'user_id' => $user->id,
-                                'category' => 'root',
-                                'attribute_name' => $parentKey
-                            ],
-                            [
-                                'attribute_value' => Crypt::encryptString($parentValue)
-                            ]
-                        );
-                    }
-                }
+                $this->insertUpdateDIDData($request, $user);
             }
+        } else {
+            $this->insertUpdateDIDData($request, $user);
         }
 
         Auth::login($user, true);
         $request->session()->regenerate();
 
         if(Auth::check()) {
-            return $user;
+            return 'User is logged in';
         } else {
             return 'User is not logged in';
+        }
+    }
+
+    private function insertUpdateDIDData(Request $request, User $user) {
+        foreach ($request->data as $parentKey => $parentValue) {
+            if (is_array($parentValue)) {
+                $index = 0;
+                foreach ($parentValue as $childKey => $childValue) {
+                    if (is_array($childValue)) {
+                        foreach ($childValue as $childChildKey => $childchildValue) {
+                            if($childchildValue) {
+                                IamxIdentityAttribute::updateOrCreate(
+                                    [
+                                        'user_id' => $user->id,
+                                        'category' => $parentKey,
+                                        'attribute_name' => $childChildKey,
+                                        'element_number' => $index
+                                    ],
+                                    [
+                                        'attribute_value' => Crypt::encryptString($childchildValue)
+                                    ]
+                                );
+                            }
+                        }
+                        $index++;
+
+                    } else {
+                        if($childValue) {
+                            IamxIdentityAttribute::updateOrCreate(
+                                [
+                                    'user_id' => $user->id,
+                                    'category' => $parentKey,
+                                    'attribute_name' => $childKey
+                                ],
+                                [
+                                    'attribute_value' => Crypt::encryptString($childValue)
+                                ]
+                            );
+                        }
+                    }
+
+                }
+            } else {
+                IamxIdentityAttribute::updateOrCreate(
+                    [
+                        'user_id' => $user->id,
+                        'category' => 'root',
+                        'attribute_name' => $parentKey
+                    ],
+                    [
+                        'attribute_value' => Crypt::encryptString($parentValue)
+                    ]
+                );
+            }
         }
     }
 
