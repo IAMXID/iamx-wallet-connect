@@ -50,13 +50,17 @@ class User extends Model
 ```
 Place the component ```<x-iamxwalletconnect-identity-connector />``` in your blade template to insert the wallet connect button.
 
-Style the connect button in your css file using the class btn-identity:
+Style the connect button and the container in your css file using the classes ```btn-identity``` and ```container-btn-identity```:
 ```
 @tailwind base;
 @tailwind components;
 
+.container-btn-identity {
+    @apply m-5
+}
+
 .btn-identity {
-@apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded
+    @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded
 }
 
 @tailwind utilities;

@@ -1,4 +1,4 @@
-<div>
+<div class="container-btn-identity">
     <button class="btn-identity" id="iamxLoginButton" onclick="createDID()">
         Create IAMX DID
     </button>
