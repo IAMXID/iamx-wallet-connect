@@ -28,6 +28,11 @@ Run the migration:
     php artisan migrate
 ```
 
+Add the scope to the .env file. Example:
+```
+IAMX_IDENTITY_SCOPE={"did":"","person":{},"vUID":{},"address":{},"email":{},"mobilephone":{}}
+```
+
 ## Usage
 Add the attribute "iamx_vuid" to the $fillable array in /app/Models/User.php
 ```php
