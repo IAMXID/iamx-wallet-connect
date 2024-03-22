@@ -12,12 +12,13 @@ use Illuminate\Support\Facades\Hash;
 
 class WalletConnectController extends Controller
 {
-    public function connectIdentity(Request $request) {
+    public function connectIdentity(Request $request)
+    {
 
         $user = User::updateOrCreate(
             [
                 'iamx_vuid' => $request->data['vUID']['id']
-            ],[
+            ], [
                 'name' => $request->data['person']['firstname'].' '.$request->data['person']['lastname'],
                 'email' => $request->data['vUID']['id'].'@iamx.id',
                 'password' => Hash::make($request->data['vUID']['id'].$request->data['person']['firstname'].$request->data['person']['lastname'])
@@ -44,21 +45,22 @@ class WalletConnectController extends Controller
         Auth::login($user, true);
         $request->session()->regenerate();
 
-        if(Auth::check()) {
-            return 'User is logged in';
+        if (Auth::check()) {
+            return array('logged_in' => true, 'redirect_url' => env('IAMX_IDENTITY_CONNECT_REDIRECT_URL'));
         } else {
-            return 'User is not logged in';
+            return array('logged_in' => false);
         }
     }
 
-    private function insertUpdateDIDData(Request $request, User $user) {
+    private function insertUpdateDIDData(Request $request, User $user)
+    {
         foreach ($request->data as $parentKey => $parentValue) {
             if (is_array($parentValue)) {
                 $index = 0;
                 foreach ($parentValue as $childKey => $childValue) {
                     if (is_array($childValue)) {
                         foreach ($childValue as $childChildKey => $childchildValue) {
-                            if($childchildValue) {
+                            if ($childchildValue) {
                                 IamxIdentityAttribute::updateOrCreate(
                                     [
                                         'user_id' => $user->id,
@@ -75,7 +77,7 @@ class WalletConnectController extends Controller
                         $index++;
 
                     } else {
-                        if($childValue) {
+                        if ($childValue) {
                             IamxIdentityAttribute::updateOrCreate(
                                 [
                                     'user_id' => $user->id,
@@ -105,14 +107,16 @@ class WalletConnectController extends Controller
         }
     }
 
-    public function disconnectIdentity(Request $request) {
+    public function disconnectIdentity(Request $request)
+    {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return "logged out";
     }
 
-    public function getIdentityScope() {
+    public function getIdentityScope()
+    {
         return env('IAMX_IDENTITY_SCOPE');
     }
 }

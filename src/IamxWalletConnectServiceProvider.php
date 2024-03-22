@@ -3,6 +3,10 @@
 namespace IAMXID\IamxWalletConnect;
 
 use IAMXID\IamxWalletConnect\View\Components\IdentityConnector;
+use IAMXID\IamxWalletConnect\View\Components\IdentityDecryptData;
+use IAMXID\IamxWalletConnect\View\Components\IdentityEncryptData;
+use IAMXID\IamxWalletConnect\View\Components\IdentitySignData;
+use IAMXID\IamxWalletConnect\View\Components\IdentityVerifyData;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,18 +25,20 @@ class IamxWalletConnectServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if($this->app->runningInConsole()) {
+        if ($this->app->runningInConsole()) {
 
-            if(!class_exists('AddDidToUsersTable')) {
+            if (!class_exists('AddDidToUsersTable')) {
                 $this->publishes([
-                    __DIR__.'/../database/migrations/add_vuid_to_users_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_add_vuid_to_users_table.php'),
+                    __DIR__.'/../database/migrations/add_vuid_to_users_table.php.stub' => database_path('migrations/'.date('Y_m_d_His',
+                            time()).'_add_vuid_to_users_table.php'),
 
                 ], 'migrations');
             }
 
-            if(!class_exists('CreateIamxIdentityAttributesTable')) {
+            if (!class_exists('CreateIamxIdentityAttributesTable')) {
                 $this->publishes([
-                    __DIR__.'/../database/migrations/create_iamx_identity_attributes_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_iamx_identity_attributes_table.php'),
+                    __DIR__.'/../database/migrations/create_iamx_identity_attributes_table.php.stub' => database_path('migrations/'.date('Y_m_d_His',
+                            time()).'_create_iamx_identity_attributes_table.php'),
 
                 ], 'migrations');
             }
@@ -40,7 +46,7 @@ class IamxWalletConnectServiceProvider extends ServiceProvider
 
 
         // Load package views
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'iamxwalletconnect');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'iamxwalletconnect');
 
         // Load package routes
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
